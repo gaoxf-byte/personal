@@ -80,24 +80,30 @@
   <!-- @nav:start 导航组件，不需要的页面则不要复制此段（从 @nav:start 到 @nav:end） -->
   <header class="bg-surface sticky top-0 z-40 h-16 border-b border-outline-variant/20">
     <div class="max-w-6xl mx-auto h-full flex items-center justify-between px-6">
-      <div class="flex items-center gap-3">
-        <div class="w-9 h-9 rounded-md bg-primary flex items-center justify-center">
-          <span class="text-accent font-bold text-lg">高</span>
+      <a href="index.html" class="flex items-center gap-3 group">
+        <div class="w-11 h-11 rounded-lg overflow-hidden bg-white/80 flex items-center justify-center group-hover:scale-105 transition-transform">
+          <img src="assets/logo-boat.jpeg" alt="轻舟" class="w-full h-full object-contain" />
         </div>
-        <div class="flex flex-col leading-tight">
-          <span class="font-semibold text-base text-on-surface">高学锋</span>
-          <span class="text-xs text-on-surface-variant">专利代理人 · 品源</span>
-        </div>
-      </div>
+        <span class="text-xl font-bold text-on-surface tracking-wide group-hover:text-primary transition-colors">
+          轻舟
+        </span>
+      </a>
       <nav class="hidden md:flex items-center gap-1">
         <a href="index.html" class="px-3 py-1.5 text-sm font-medium text-on-surface hover:text-primary hover:bg-surface-container rounded-md transition-colors">首页</a>
+        <a href="agents.html" class="px-3 py-1.5 text-sm font-medium text-on-surface hover:text-primary hover:bg-surface-container rounded-md transition-colors">AI智能体</a>
         <a href="resume.html" class="px-3 py-1.5 text-sm font-medium text-on-surface hover:text-primary hover:bg-surface-container rounded-md transition-colors">个人简历</a>
         <a href="contact.html" class="px-3 py-1.5 text-sm font-medium text-primary bg-primary/10 rounded-md transition-colors" aria-current="page">联系方式</a>
       </nav>
-      <a href="https://www.boip.com.cn" target="_blank" class="hidden sm:inline-flex items-center gap-1.5 bg-primary text-on-primary px-4 py-2 rounded-md text-sm font-medium hover:opacity-90 transition-opacity">
-        <i data-lucide="external-link" class="w-4 h-4"></i>
-        品源官网
-      </a>
+      <div class="flex items-center gap-2">
+        <button id="login-btn" class="hidden sm:inline-flex items-center gap-1.5 border border-primary/30 text-primary px-4 py-2 rounded-md text-sm font-medium hover:bg-primary/10 transition-colors">
+          <i data-lucide="log-in" class="w-4 h-4"></i>
+          登录
+        </button>
+        <a href="https://www.boip.com.cn" target="_blank" class="hidden sm:inline-flex items-center gap-1.5 bg-primary text-on-primary px-4 py-2 rounded-md text-sm font-medium hover:opacity-90 transition-opacity">
+          <i data-lucide="external-link" class="w-4 h-4"></i>
+          品源官网
+        </a>
+      </div>
     </div>
   </header>
   <!-- @nav:end 导航组件，不需要的页面则不要复制此段 -->
@@ -249,7 +255,7 @@
           </div>
           <div>
             <h2 class="text-base font-semibold text-on-surface">北京品源专利代理有限公司</h2>
-            <p class="text-xs text-on-surface-variant">PINYUAN IP & LAW FIRM</p>
+            <p class="text-xs text-on-surface-variant">BEYOND ATTORNEYS AT LAW</p>
           </div>
         </div>
 
@@ -359,20 +365,259 @@
         console.log('访问品源官网: https://www.boip.com.cn');
       });
 
-      // 智能体开始咨询按钮
-      $('#btn-start-coach').on('click', function() {
-        // 开始咨询功能 - 后续应实现：
-        // 1. 打开专利教练智能体对话窗口或跳转到智能体页面
-        // 2. 如果是弹窗形式，展示对话界面，包含欢迎语和输入框
-        // 3. 用户输入问题后调用智能体接口获取回复
-        // 4. 支持上传交底书文件进行分析
-        // 5. 记录用户对话历史
-        console.log('启动专利教练智能体 - 交底书减肥');
-      });
+      // 智能体开始咨询按钮 - 点击事件已移至 Coze SDK 初始化代码中
     });
   </script>
 
   <script>lucide.createIcons();</script>
+
+  <!-- Coze WebChat SDK -->
+  <script>
+    var BOT_DIET_ID = '7661518969198624777';    // 专利教练：交底书减肥
+    var BOT_SERVICE_ID = '7653302079582175258';  // 专利教练：客服助手
+    var DEFAULT_BOT_ID = BOT_SERVICE_ID;          // 默认 bot（右下角悬浮窗）
+
+    var cozeClient = null;
+    var currentBotId = null;
+    var cozeScriptLoaded = false;
+
+    var JWT_API_URL = 'https://coze-jwt.onrender.com/api/get-jwt';
+    var ENABLE_JWT_MODE = true;
+
+    var PAT_TOKEN = 'pat_4ChDAx0dfagXwRpxGKOszsMe3HGueQfApt5Ds6MSTExCZyNFi1N3XX5omxAaaq4w';
+
+    var cachedToken = '';
+    var cachedTokenType = 'pat';
+    var cachedUserId = '';
+
+    async function fetchAccessToken(userId) {
+      try {
+        var resp = await fetch(JWT_API_URL + '?auth0_user_id=' + encodeURIComponent(userId));
+        var data = await resp.json();
+        if (!data.jwt) return '';
+        var tokenResp = await fetch('https://api.coze.cn/api/permission/oauth2/token', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + data.jwt },
+          body: JSON.stringify({
+            grant_type: 'urn:ietf:params:oauth:grant-type:jwt-bearer',
+            duration_seconds: 86399
+          })
+        });
+        if (!tokenResp.ok) return '';
+        var tokenData = await tokenResp.json();
+        if (tokenData.access_token) {
+          console.log('[CozeChat] 成功换取 OAuth Access Token');
+          return tokenData.access_token;
+        }
+        return '';
+      } catch (e) {
+        console.warn('[CozeChat] JWT/OAuth 异常：', e);
+        return '';
+      }
+    }
+
+    async function ensureToken() {
+      var userId = '';
+      if (typeof auth0Client !== 'undefined' && auth0Client && auth0Ready) {
+        try {
+          if (await auth0Client.isAuthenticated()) {
+            var u = await auth0Client.getUser();
+            userId = u.sub;
+          }
+        } catch (e) { /* ignore */ }
+      }
+      if (ENABLE_JWT_MODE && userId) {
+        if (cachedToken && cachedTokenType === 'jwt' && cachedUserId === userId) {
+          return { token: cachedToken, type: 'jwt', userId: userId };
+        }
+        var tk = await fetchAccessToken(userId);
+        if (tk) {
+          cachedToken = tk; cachedTokenType = 'jwt'; cachedUserId = userId;
+          return { token: tk, type: 'jwt', userId: userId };
+        }
+      }
+      cachedToken = PAT_TOKEN; cachedTokenType = 'pat'; cachedUserId = '';
+      return { token: PAT_TOKEN, type: 'pat', userId: '' };
+    }
+
+    function createCozeClient(botId, token, tokenType, userId) {
+      if (typeof CozeWebSDK === 'undefined' || !CozeWebSDK.WebChatClient) return null;
+      try {
+        var client = new CozeWebSDK.WebChatClient({
+          config: { bot_id: botId },
+          componentProps: { title: 'Coze' },
+          ui: {
+            asstBtn: {
+              isNeed: false,
+            },
+          },
+          auth: {
+            type: 'token',
+            token: token,
+            onRefreshToken: async function () {
+              if (tokenType === 'jwt' && userId) {
+                var nt = await fetchAccessToken(userId);
+                if (nt) { cachedToken = nt; return nt; }
+              }
+              return token;
+            }
+          }
+        });
+        cozeClient = client;
+        currentBotId = botId;
+        console.log('[CozeChat] SDK 初始化成功（' + tokenType + ' 模式，bot: ' + botId + '）');
+        return client;
+      } catch (e) {
+        console.error('[CozeChat] 初始化失败：', e);
+        return null;
+      }
+    }
+
+    async function openCozeChat(botId) {
+      if (typeof CozeWebSDK === 'undefined') {
+        alert('智能体加载中，请稍后再试或刷新页面');
+        return false;
+      }
+      var targetId = botId || DEFAULT_BOT_ID;
+      if (cozeClient && currentBotId === targetId) {
+        if (typeof cozeClient.showChatBot === 'function') { cozeClient.showChatBot(); return true; }
+        return false;
+      }
+      if (cozeClient && typeof cozeClient.destroy === 'function') {
+        try { cozeClient.destroy(); } catch (e) { console.warn(e); }
+        cozeClient = null; currentBotId = null;
+      }
+      var info = await ensureToken();
+      var client = createCozeClient(targetId, info.token, info.type, info.userId);
+      if (!client) return false;
+      setTimeout(function () {
+        if (cozeClient && typeof cozeClient.showChatBot === 'function') cozeClient.showChatBot();
+      }, 100);
+      return true;
+    }
+
+    async function initDefaultBot() {
+      if (cozeClient) return;
+      var info = await ensureToken();
+      createCozeClient(DEFAULT_BOT_ID, info.token, info.type, info.userId);
+    }
+
+    function tryInitCoze() {
+      if (cozeScriptLoaded && auth0Ready) initDefaultBot();
+    }
+  </script>
+  <script src="https://cdn.auth0.com/js/auth0-spa-js/2.21/auth0-spa-js.production.js"></script>
+  <script>
+    // Auth0 配置（使用环境变量占位，实际使用时替换为真实值）
+    const AUTH0_DOMAIN = 'dev-iuhogzdkreeodbqt.us.auth0.com';
+    const AUTH0_CLIENT_ID = 'mmdTbAZZ5bN5NSJXjDffXkPyijhftrlR';
+
+    let auth0Client = null;
+
+    async function initAuth0() {
+      if (!window.auth0?.createAuth0Client) {
+        console.warn('Auth0 SDK 未加载');
+        return;
+      }
+      if (!AUTH0_DOMAIN || !AUTH0_CLIENT_ID || AUTH0_DOMAIN === 'YOUR_AUTH0_DOMAIN') {
+        console.warn('[Auth0] 请配置 AUTH0_DOMAIN 和 AUTH0_CLIENT_ID');
+        return;
+      }
+      try {
+        auth0Client = await window.auth0.createAuth0Client({
+          domain: AUTH0_DOMAIN,
+          clientId: AUTH0_CLIENT_ID,
+          authorizationParams: {
+            redirect_uri: window.location.origin,
+          },
+        });
+        console.log('[Auth0] 初始化成功');
+
+        // 检查是否从Auth0重定向回来，处理回调
+        if (window.location.search.includes('code=')) {
+          const result = await auth0Client.handleRedirectCallback();
+          const targetPath = result?.appState?.target || window.location.pathname;
+          window.history.replaceState({}, document.title, targetPath);
+        }
+
+        // 检查登录状态，获取用户信息
+        const isAuthed = await auth0Client.isAuthenticated();
+        if (isAuthed) {
+          const user = await auth0Client.getUser();
+          const userId = user?.sub;
+          console.log('[Auth0] 当前用户ID:', userId);
+        }
+
+        const loginBtn = document.getElementById('login-btn');
+        if (loginBtn) {
+          if (isAuthed) {
+            loginBtn.innerHTML = '<i data-lucide="log-out" class="w-4 h-4"></i> 退出登录';
+            lucide.createIcons();
+          }
+        }
+      } catch (e) {
+        console.error('[Auth0] 初始化失败:', e);
+      } finally {
+        auth0Ready = true;
+        tryInitCoze();
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      const loginBtn = document.getElementById('login-btn');
+      if (loginBtn) {
+        loginBtn.addEventListener('click', async function(e) {
+          e.preventDefault();
+          if (!auth0Client) {
+            alert('Auth0 尚未初始化，请刷新页面重试');
+            return;
+          }
+          const isAuthed = await auth0Client.isAuthenticated();
+          if (isAuthed) {
+            await auth0Client.logout({
+              logoutParams: { returnTo: window.location.origin }
+            });
+          } else {
+            await auth0Client.loginWithRedirect({
+              appState: { target: window.location.pathname + window.location.search },
+            });
+          }
+        });
+      }
+    });
+
+    function waitForAuth0() {
+      if (window.auth0?.createAuth0Client) {
+        initAuth0();
+      } else {
+        setTimeout(waitForAuth0, 100);
+      }
+    }
+    waitForAuth0();
+
+    // 兜底：5 秒后即使 Auth0 没好也初始化 Coze（用 PAT）
+    setTimeout(function() {
+      if (!auth0Ready) {
+        auth0Ready = true;
+        tryInitCoze();
+      }
+    }, 5000);
+  </script>
+  <script src="https://lf-cdn.coze.cn/obj/unpkg/flow-platform/chat-app-sdk/1.2.0-beta.19/libs/cn/index.js" onload="cozeScriptLoaded = true; tryInitCoze()"></script>
+  <script>
+    // 按钮点击打开聊天窗口
+    $(function() {
+      $('#btn-start-coach').on('click', function(e) {
+        e.preventDefault();
+        if (cozeClient && typeof cozeClient.showChatBot === 'function') {
+          cozeClient.showChatBot();
+        } else {
+          console.error('Coze SDK 未正确加载，cozeClient=', cozeClient);
+          alert('智能体加载失败，请确认通过 HTTP(S) 协议访问页面（而非直接双击打开 HTML 文件），或刷新页面重试');
+        }
+      });
+    });
+  </script>
 </body>
 
 </html>
