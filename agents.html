@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- 字体 -->
+  <link href="https://fonts.googleapis.cn/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+
+  <script src="https://lf-code-agent.coze.cn/obj/x-ai-cn/cdn/jquery/jquery-3.7.1.min.js"></script>
+  <script src="https://lf-code-agent.coze.cn/obj/x-ai-cn/cdn/lucide/lucide-1.11.0.min.js"></script>
+  <script src="https://lf-code-agent.coze.cn/obj/x-ai-cn/cdn/tailwindcss/tailwindcss-browser-4.2.4.min.js"></script>
+
+  <style type="text/tailwindcss">
+    @theme {
+      /* === 品牌色 - 金融风深蓝+金色 === */
+      --color-primary:              #071B3A;
+      --color-primary-container:    #1A3A6B;
+      --color-on-primary:           #ffffff;
+      /* 金色强调色 */
+      --color-accent:               #D5A84D;
+      --color-accent-light:         #E8C77A;
+      /* 青色辅助色 */
+      --color-teal:                 #2BC4B6;
+      /* === 背景 / 表面 === */
+      --color-background:                 #F3F7FB;
+      --color-surface-container-lowest:   #FFFFFF;
+      --color-surface:                    #FFFFFF;
+      --color-surface-container:          #E8EEF5;
+      --color-surface-container-high:     #DDE5EE;
+      --color-surface-container-highest:  #CBD5E1;
+      /* === 文字 === */
+      --color-on-surface:           #102033;
+      --color-on-surface-variant:   #65758A;
+      /* === 功能色 === */
+      --color-success:  #22c55e;
+      --color-error:    #ef4444;
+      --color-warning:  #f59e0b;
+      /* === 边框 === */
+      --color-outline:          #94A3B8;
+      --color-outline-variant:  #CBD5E1;
+      /* === 圆角 - 规整风格 === */
+      --radius-sm:   0.25rem;
+      --radius-md:   0.375rem;
+      --radius-lg:   0.5rem;
+      --radius-xl:   0.75rem;
+      --radius-2xl:  1rem;
+      --radius-full: 9999px;
+      /* === 阴影 - 精致克制 === */
+      --shadow-card:   0 2px 8px rgba(7,27,58,0.08);
+      --shadow-float:  0 10px 30px rgba(7,27,58,0.12);
+      --shadow-dialog: 0 25px 50px rgba(7,27,58,0.18);
+      /* === 字体 === */
+      --font-sans: "Inter", "Noto Sans SC", system-ui, sans-serif;
+    }
+  </style>
+
+  <!-- 图片兜底 -->
+  <script>
+    document.addEventListener('error', function (e) {
+      const img = e.target;
+      if (img.tagName !== 'IMG' || img.dataset.fallback) return;
+      img.dataset.fallback = '1';
+      const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      const cat = img.getAttribute('data-category') || '其他';
+      const alt = img.getAttribute('alt') || '';
+      const label = esc(alt.length > 8 ? alt.slice(0, 8) + '…' : alt);
+      const icons = { '人物': '👤', '自然风景': '🏞', '动物': '🐾', '建筑城市': '🏙', '运动体育': '⚽', '交通工具': '🚗', '食物': '🍽', '服饰时尚': '👗', '商业科技': '💼', '游戏娱乐': '🎮', '艺术': '🎨', '其他': '🖼' };
+      const icon = icons[cat] || '🖼';
+      const w = img.width || 400, h = img.height || 300;
+      const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}"><rect width="100%" height="100%" fill="%23f3f4f6"/><text x="50%" y="45%" text-anchor="middle" font-size="${Math.min(w, h) * 0.18}" dominant-baseline="central">${icon}</text><text x="50%" y="68%" text-anchor="middle" font-size="${Math.min(w, h) * 0.07}" fill="%239ca3af" font-family="system-ui,sans-serif" dominant-baseline="central">${label}</text></svg>`;
+      img.src = 'data:image/svg+xml,' + svg;
+    }, true);
+  </script>
+</head>
+
+<body class="bg-background text-on-surface font-sans">
+
+  <!-- @nav:start 导航组件，不需要的页面则不要复制此段（从 @nav:start 到 @nav:end） -->
+  <header class="bg-surface sticky top-0 z-40 h-16 border-b border-outline-variant/20">
+    <div class="max-w-6xl mx-auto h-full flex items-center justify-between px-6">
+      <a href="index.html" class="flex items-center gap-3 group">
+        <div class="w-11 h-11 rounded-lg overflow-hidden bg-white/80 flex items-center justify-center group-hover:scale-105 transition-transform">
+          <img src="assets/logo-boat.jpeg" alt="轻舟" class="w-full h-full object-contain" />
+        </div>
+        <span class="text-xl font-bold text-on-surface tracking-wide group-hover:text-primary transition-colors">
+          轻舟
+        </span>
+      </a>
+      <nav class="hidden md:flex items-center gap-1">
+        <a href="index.html" class="px-3 py-1.5 text-sm font-medium text-on-surface hover:text-primary hover:bg-surface-container rounded-md transition-colors">首页</a>
+        <a href="agents.html" class="px-3 py-1.5 text-sm font-medium text-primary bg-primary/10 rounded-md" aria-current="page">AI智能体</a>
+        <a href="resume.html" class="px-3 py-1.5 text-sm font-medium text-on-surface hover:text-primary hover:bg-surface-container rounded-md transition-colors">个人简历</a>
+        <a href="contact.html" class="px-3 py-1.5 text-sm font-medium text-on-surface hover:text-primary hover:bg-surface-container rounded-md transition-colors">联系方式</a>
+      </nav>
+      <div class="flex items-center gap-2">
+        <button id="login-btn" class="hidden sm:inline-flex items-center gap-1.5 border border-primary/30 text-primary px-4 py-2 rounded-md text-sm font-medium hover:bg-primary/10 transition-colors">
+          <i data-lucide="log-in" class="w-4 h-4"></i>
+          登录
+        </button>
+        <a href="https://www.boip.com.cn" target="_blank" class="hidden sm:inline-flex items-center gap-1.5 bg-primary text-on-primary px-4 py-2 rounded-md text-sm font-medium hover:opacity-90 transition-opacity">
+          <i data-lucide="external-link" class="w-4 h-4"></i>
+          品源官网
+        </a>
+      </div>
+    </div>
+  </header>
+  <!-- @nav:end 导航组件，不需要的页面则不要复制此段 -->
+
+  <main class="max-w-6xl mx-auto px-6 pt-16 pb-20">
+      <!-- ========== 标题区 ========== -->
+      <section class="text-center mb-14">
+        <div class="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-medium mb-4">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v4M12 17v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M3 12h4M17 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+          AI 智能体矩阵
+        </div>
+        <h1 class="text-4xl md:text-5xl font-bold text-on-surface mb-4">专利 AI 智能体</h1>
+        <p class="text-lg text-on-surface-variant max-w-2xl mx-auto">基于大语言模型打造的专利领域智能助手，为您提供 7×24 小时不间断的专业服务</p>
+        <!-- 隐私提示 -->
+        <div class="mt-8 inline-flex items-center gap-3 bg-amber-50 border border-amber-200 text-amber-800 px-5 py-3 rounded-xl text-sm">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="flex-shrink-0"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          <span>为了保护个人隐私，请 <strong>登录后使用智能体</strong>，确保您的对话内容独立隔离</span>
+        </div>
+      </section>
+
+      <!-- ========== 智能体卡片 ========== -->
+      <section class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+        <!-- 客服助手 -->
+        <div class="group relative bg-surface rounded-2xl p-8 shadow-md border border-outline-variant/30 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 overflow-hidden">
+          <div class="relative z-10">
+            <div class="w-16 h-16 bg-secondary/15 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-secondary"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg>
+            </div>
+            <h3 class="text-2xl font-bold text-on-surface mb-3">专利教练：客服助手</h3>
+            <p class="text-on-surface-variant mb-6 leading-relaxed">7×24 小时在线的专利客服智能体，随时解答您的专利疑问，提供专业、及时的咨询服务。</p>
+            <div class="flex flex-wrap gap-2 mb-8">
+              <span class="px-3 py-1 bg-secondary/10 text-secondary text-sm rounded-full">即时响应</span>
+              <span class="px-3 py-1 bg-secondary/10 text-secondary text-sm rounded-full">专业解答</span>
+              <span class="px-3 py-1 bg-secondary/10 text-secondary text-sm rounded-full">全天在线</span>
+            </div>
+            <button onclick="openCozeChat(BOT_SERVICE_ID)" class="w-full inline-flex items-center justify-center gap-2 bg-secondary hover:bg-secondary/90 text-white px-6 py-3 rounded-xl font-medium transition-all shadow-sm hover:shadow">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg>
+              立即咨询
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- 交底书减肥 -->
+        <div class="group relative bg-surface rounded-2xl p-8 shadow-md border border-outline-variant/30 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 overflow-hidden">
+          <div class="relative z-10">
+            <div class="w-16 h-16 bg-primary/15 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/></svg>
+            </div>
+            <h3 class="text-2xl font-bold text-on-surface mb-3">专利教练：交底书减肥</h3>
+            <p class="text-on-surface-variant mb-6 leading-relaxed">智能精简专利交底书，自动识别核心技术点，去除冗余描述，提升专利撰写效率与质量。</p>
+            <div class="flex flex-wrap gap-2 mb-8">
+              <span class="px-3 py-1 bg-primary/10 text-primary text-sm rounded-full">智能精简</span>
+              <span class="px-3 py-1 bg-primary/10 text-primary text-sm rounded-full">核心提炼</span>
+              <span class="px-3 py-1 bg-primary/10 text-primary text-sm rounded-full">一键生成</span>
+            </div>
+            <button onclick="openCozeChat(BOT_DIET_ID)" class="w-full inline-flex items-center justify-center gap-2 bg-primary hover:bg-primary/90 text-white px-6 py-3 rounded-xl font-medium transition-all shadow-sm hover:shadow">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+              立即使用
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- 转为交底书 -->
+        <div class="group relative bg-surface rounded-2xl p-8 shadow-md border border-outline-variant/30 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 overflow-hidden">
+          <div class="relative z-10">
+            <div class="w-16 h-16 bg-primary/15 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></svg>
+            </div>
+            <h3 class="text-2xl font-bold text-on-surface mb-3">专利教练：转为交底书</h3>
+            <p class="text-on-surface-variant mb-6 leading-relaxed">将技术资料智能转换为规范的专利交底书格式，自动梳理技术方案，生成结构化交底文档。</p>
+            <div class="flex flex-wrap gap-2 mb-8">
+              <span class="px-3 py-1 bg-primary/10 text-primary text-sm rounded-full">格式转换</span>
+              <span class="px-3 py-1 bg-primary/10 text-primary text-sm rounded-full">结构梳理</span>
+              <span class="px-3 py-1 bg-primary/10 text-primary text-sm rounded-full">自动生成</span>
+            </div>
+            <button onclick="openCozeChat(BOT_DRAFT_ID)" class="w-full inline-flex items-center justify-center gap-2 bg-primary hover:bg-primary/90 text-white px-6 py-3 rounded-xl font-medium transition-all shadow-sm hover:shadow">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+              立即使用
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- 交底书助手 -->
+        <div class="group relative bg-surface rounded-2xl p-8 shadow-md border border-outline-variant/30 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 overflow-hidden">
+          <div class="relative z-10">
+            <div class="w-16 h-16 bg-primary/15 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+            </div>
+            <h3 class="text-2xl font-bold text-on-surface mb-3">专利教练：交底书助手</h3>
+            <p class="text-on-surface-variant mb-6 leading-relaxed">专业辅助交底书撰写，智能引导技术方案梳理，提供结构化模板建议，让交底书撰写更高效规范。</p>
+            <div class="flex flex-wrap gap-2 mb-8">
+              <span class="px-3 py-1 bg-primary/10 text-primary text-sm rounded-full">智能引导</span>
+              <span class="px-3 py-1 bg-primary/10 text-primary text-sm rounded-full">模板建议</span>
+              <span class="px-3 py-1 bg-primary/10 text-primary text-sm rounded-full">辅助撰写</span>
+            </div>
+            <button onclick="openCozeChat(BOT_HELPER_ID)" class="w-full inline-flex items-center justify-center gap-2 bg-primary hover:bg-primary/90 text-white px-6 py-3 rounded-xl font-medium transition-all shadow-sm hover:shadow">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+              立即使用
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== 优势说明 ========== -->
+      <section class="bg-surface-container/50 rounded-2xl p-8 md:p-10">
+        <h2 class="text-xl font-bold text-on-surface mb-6 text-center">为什么选择 AI 智能体</h2>
+        <div class="grid md:grid-cols-3 gap-6">
+          <div class="flex gap-4">
+            <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center flex-shrink-0">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </div>
+            <div>
+              <h4 class="font-semibold text-on-surface mb-1">全天候服务</h4>
+              <p class="text-sm text-on-surface-variant">7×24 小时随时响应，不受工作时间限制</p>
+            </div>
+          </div>
+          <div class="flex gap-4">
+            <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center flex-shrink-0">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/><path d="m9 12 2 2 4-4"/></svg>
+            </div>
+            <div>
+              <h4 class="font-semibold text-on-surface mb-1">隐私隔离</h4>
+              <p class="text-sm text-on-surface-variant">登录后会话独立隔离，保护您的技术机密</p>
+            </div>
+          </div>
+          <div class="flex gap-4">
+            <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center flex-shrink-0">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            </div>
+            <div>
+              <h4 class="font-semibold text-on-surface mb-1">高效专业</h4>
+              <p class="text-sm text-on-surface-variant">基于专利领域专业数据训练，精准高效</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+  <script>
+    $(function() {
+      // 智能体入口按钮点击事件已移至 Coze SDK 初始化代码中
+
+      // 立即咨询按钮 - 跳转联系页
+      $('#btn-consult').on('click', function(e) {
+        // 链接已通过 href 实现跳转，此处记录日志
+        console.log('点击立即咨询，跳转至联系页面');
+      });
+
+      // 查看简历按钮 - 跳转简历页
+      $('#btn-resume').on('click', function(e) {
+        console.log('点击查看简历，跳转至个人简历页面');
+      });
+    });
+  </script>
+
+  <script>lucide.createIcons();</script>
+
+  <!-- Coze WebChat SDK -->
+  <script>
+    var BOT_DIET_ID = '7661518969198624777';    // 专利教练：交底书减肥
+    var BOT_SERVICE_ID = '7653302079582175258';  // 专利教练：客服助手
+    var BOT_DRAFT_ID = '7655199402147217458';    // 专利教练：转为交底书
+    var BOT_HELPER_ID = '7632122187008376870';   // 专利教练：交底书助手
+    var DEFAULT_BOT_ID = BOT_SERVICE_ID;          // 默认 bot（右下角悬浮窗）
+
+    var cozeClient = null;
+    var currentBotId = null;
+    var cozeScriptLoaded = false;
+    var auth0Ready = false;
+
+    // token 缓存
+    var cachedToken = '';
+    var cachedTokenType = 'pat';
+    var cachedUserId = '';
+
+    var JWT_API_URL = 'https://coze-jwt.onrender.com/api/get-jwt';
+    var ENABLE_JWT_MODE = true;
+
+    var PAT_TOKEN = 'pat_4ChDAx0dfagXwRpxGKOszsMe3HGueQfApt5Ds6MSTExCZyNFi1N3XX5omxAaaq4w';
+
+    // 获取 JWT 并兑换 OAuth Access Token
+    async function fetchAccessToken(userId) {
+      try {
+        var resp = await fetch(JWT_API_URL + '?auth0_user_id=' + encodeURIComponent(userId));
+        var data = await resp.json();
+        if (!data.jwt) {
+          console.warn('[CozeChat] 获取 JWT 失败');
+          return '';
+        }
+        var tokenResp = await fetch('https://api.coze.cn/api/permission/oauth2/token', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + data.jwt },
+          body: JSON.stringify({
+            grant_type: 'urn:ietf:params:oauth:grant-type:jwt-bearer',
+            duration_seconds: 86399
+          })
+        });
+        if (!tokenResp.ok) {
+          console.warn('[CozeChat] 兑换 OAuth Access Token 失败：HTTP', tokenResp.status);
+          return '';
+        }
+        var tokenData = await tokenResp.json();
+        if (tokenData.access_token) {
+          console.log('[CozeChat] 成功换取 OAuth Access Token');
+          return tokenData.access_token;
+        }
+        return '';
+      } catch (e) {
+        console.warn('[CozeChat] JWT/OAuth 流程异常：', e);
+        return '';
+      }
+    }
+
+    // 确保 token 就绪
+    async function ensureToken() {
+      var userId = '';
+      if (typeof auth0Client !== 'undefined' && auth0Client && auth0Ready) {
+        try {
+          var authed = await auth0Client.isAuthenticated();
+          if (authed) {
+            var u = await auth0Client.getUser();
+            userId = u.sub;
+          }
+        } catch (e) { /* ignore */ }
+      }
+
+      if (ENABLE_JWT_MODE && userId) {
+        if (cachedToken && cachedTokenType === 'jwt' && cachedUserId === userId) {
+          return { token: cachedToken, type: 'jwt', userId: userId };
+        }
+        var accessToken = await fetchAccessToken(userId);
+        if (accessToken) {
+          cachedToken = accessToken;
+          cachedTokenType = 'jwt';
+          cachedUserId = userId;
+          return { token: accessToken, type: 'jwt', userId: userId };
+        }
+        console.warn('[CozeChat] JWT 失败，降级 PAT');
+      }
+      cachedToken = PAT_TOKEN;
+      cachedTokenType = 'pat';
+      cachedUserId = '';
+      return { token: PAT_TOKEN, type: 'pat', userId: '' };
+    }
+
+    // 创建 Coze 客户端实例
+    function createCozeClient(botId, token, tokenType, userId) {
+      if (typeof CozeWebSDK === 'undefined' || !CozeWebSDK.WebChatClient) return null;
+      try {
+        var client = new CozeWebSDK.WebChatClient({
+          config: { bot_id: botId },
+          componentProps: { title: 'Coze' },
+          ui: {
+            asstBtn: {
+              isNeed: false,
+            },
+          },
+          auth: {
+            type: 'token',
+            token: token,
+            onRefreshToken: async function () {
+              if (tokenType === 'jwt' && userId) {
+                var newToken = await fetchAccessToken(userId);
+                if (newToken) {
+                  cachedToken = newToken;
+                  return newToken;
+                }
+              }
+              return token;
+            }
+          }
+        });
+        cozeClient = client;
+        currentBotId = botId;
+        console.log('[CozeChat] SDK 初始化成功（' + tokenType + ' 模式，bot: ' + botId + '）');
+        return client;
+      } catch (e) {
+        console.error('[CozeChat] SDK 初始化失败：', e);
+        return null;
+      }
+    }
+
+    // 切换到指定 bot 并打开聊天
+    async function openCozeChat(botId) {
+      if (typeof CozeWebSDK === 'undefined') {
+        alert('智能体加载中，请稍后再试或刷新页面');
+        return false;
+      }
+      var targetId = botId || DEFAULT_BOT_ID;
+
+      // 已经是目标 bot，直接打开
+      if (cozeClient && currentBotId === targetId) {
+        if (typeof cozeClient.showChatBot === 'function') {
+          cozeClient.showChatBot();
+          return true;
+        }
+        return false;
+      }
+
+      // 销毁旧实例
+      if (cozeClient && typeof cozeClient.destroy === 'function') {
+        try { cozeClient.destroy(); } catch (e) { console.warn(e); }
+        cozeClient = null;
+        currentBotId = null;
+      }
+
+      var info = await ensureToken();
+      var client = createCozeClient(targetId, info.token, info.type, info.userId);
+      if (!client) return false;
+
+      setTimeout(function () {
+        if (cozeClient && typeof cozeClient.showChatBot === 'function') {
+          cozeClient.showChatBot();
+        }
+      }, 100);
+      return true;
+    }
+
+    // 初始加载默认 bot（仅右下角悬浮窗用）
+    async function initDefaultBot() {
+      if (cozeClient) return; // 已有实例跳过
+      var info = await ensureToken();
+      createCozeClient(DEFAULT_BOT_ID, info.token, info.type, info.userId);
+    }
+
+    function tryInitCoze() {
+      if (cozeScriptLoaded && auth0Ready) {
+        initDefaultBot();
+      }
+    }
+
+    function onCozeScriptLoaded() {
+      cozeScriptLoaded = true;
+      tryInitCoze();
+    }
+  </script>
+  <script src="https://cdn.auth0.com/js/auth0-spa-js/2.21/auth0-spa-js.production.js"></script>
+  <script>
+    // Auth0 配置（使用环境变量占位，实际使用时替换为真实值）
+    const AUTH0_DOMAIN = 'dev-iuhogzdkreeodbqt.us.auth0.com';
+    const AUTH0_CLIENT_ID = 'mmdTbAZZ5bN5NSJXjDffXkPyijhftrlR';
+
+    let auth0Client = null;
+
+    async function initAuth0() {
+      if (!window.auth0?.createAuth0Client) {
+        console.warn('Auth0 SDK 未加载');
+        return;
+      }
+      if (!AUTH0_DOMAIN || !AUTH0_CLIENT_ID || AUTH0_DOMAIN === 'YOUR_AUTH0_DOMAIN') {
+        console.warn('[Auth0] 请配置 AUTH0_DOMAIN 和 AUTH0_CLIENT_ID');
+        return;
+      }
+      try {
+        auth0Client = await window.auth0.createAuth0Client({
+          domain: AUTH0_DOMAIN,
+          clientId: AUTH0_CLIENT_ID,
+          authorizationParams: {
+            redirect_uri: window.location.origin,
+          },
+        });
+        console.log('[Auth0] 初始化成功');
+
+        // 检查是否从Auth0重定向回来，处理回调
+        if (window.location.search.includes('code=')) {
+          const result = await auth0Client.handleRedirectCallback();
+          // 清理URL，移除code和state参数
+          const targetPath = result?.appState?.target || window.location.pathname;
+          window.history.replaceState({}, document.title, targetPath);
+        }
+
+        // 检查登录状态，获取用户信息
+        const isAuthed = await auth0Client.isAuthenticated();
+        if (isAuthed) {
+          const user = await auth0Client.getUser();
+          const userId = user?.sub;
+          console.log('[Auth0] 当前用户ID:', userId);
+        }
+
+        // 更新按钮文字
+        const loginBtn = document.getElementById('login-btn');
+        if (loginBtn) {
+          if (isAuthed) {
+            loginBtn.innerHTML = '<i data-lucide="log-out" class="w-4 h-4"></i> 退出登录';
+            lucide.createIcons();
+          }
+        }
+
+        // Auth0 就绪后，触发 Coze SDK 初始化（登录用户走 JWT，未登录走 PAT 兜底）
+        auth0Ready = true;
+        tryInitCoze();
+      } catch (e) {
+        console.error('[Auth0] 初始化失败:', e);
+        // 即使 Auth0 失败，也标记为就绪，让 Coze 用 PAT 模式初始化
+        auth0Ready = true;
+        tryInitCoze();
+      }
+    }
+
+    // 登录按钮点击
+    document.addEventListener('DOMContentLoaded', function() {
+      const loginBtn = document.getElementById('login-btn');
+      if (loginBtn) {
+        loginBtn.addEventListener('click', async function(e) {
+          e.preventDefault();
+          if (!auth0Client) {
+            alert('Auth0 尚未初始化，请刷新页面重试');
+            return;
+          }
+          const isAuthed = await auth0Client.isAuthenticated();
+          if (isAuthed) {
+            await auth0Client.logout({
+              logoutParams: { returnTo: window.location.origin }
+            });
+          } else {
+            await auth0Client.loginWithRedirect({
+              appState: { target: window.location.pathname + window.location.search },
+            });
+          }
+        });
+      }
+    });
+
+    // 等待 auth0 SDK 加载后初始化
+    let auth0WaitCount = 0;
+    function waitForAuth0() {
+      if (window.auth0?.createAuth0Client) {
+        initAuth0();
+      } else if (auth0WaitCount > 50) {
+        // 5秒超时，Auth0 不可用，标记就绪让 Coze 用 PAT 模式初始化
+        console.warn('[Auth0] 加载超时，跳过');
+        auth0Ready = true;
+        tryInitCoze();
+      } else {
+        auth0WaitCount++;
+        setTimeout(waitForAuth0, 100);
+      }
+    }
+    waitForAuth0();
+  </script>
+  <script src="https://lf-cdn.coze.cn/obj/unpkg/flow-platform/chat-app-sdk/1.2.0-beta.19/libs/cn/index.js" onload="cozeScriptLoaded = true; tryInitCoze()"></script>
+  <script>
+    // 按钮点击打开聊天窗口
+    $(function() {
+      $('#btn-agent-start').on('click', function(e) {
+        e.preventDefault();
+        openCozeChat(BOT_DIET_ID); // 点击按钮打开交底书减肥智能体
+      });
+      $('#btn-service-start').on('click', function(e) {
+        e.preventDefault();
+        openCozeChat(BOT_SERVICE_ID); // 点击按钮打开客服助手智能体
+      });
+    });
+  </script>
+</body>
+
+</html>
