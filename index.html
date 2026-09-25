@@ -80,24 +80,30 @@
   <!-- @nav:start 导航组件，不需要的页面则不要复制此段（从 @nav:start 到 @nav:end） -->
   <header class="bg-surface sticky top-0 z-40 h-16 border-b border-outline-variant/20">
     <div class="max-w-6xl mx-auto h-full flex items-center justify-between px-6">
-      <div class="flex items-center gap-3">
-        <div class="w-9 h-9 rounded-md bg-primary flex items-center justify-center">
-          <span class="text-accent font-bold text-lg">高</span>
+      <a href="index.html" class="flex items-center gap-3 group">
+        <div class="w-11 h-11 rounded-lg overflow-hidden bg-white/80 flex items-center justify-center group-hover:scale-105 transition-transform">
+          <img src="assets/logo-boat.jpeg" alt="轻舟" class="w-full h-full object-contain" />
         </div>
-        <div class="flex flex-col leading-tight">
-          <span class="font-semibold text-base text-on-surface">高学锋</span>
-          <span class="text-xs text-on-surface-variant">专利代理师 </span>
-        </div>
-      </div>
+        <span class="text-xl font-bold text-on-surface tracking-wide group-hover:text-primary transition-colors">
+          轻舟
+        </span>
+      </a>
       <nav class="hidden md:flex items-center gap-1">
         <a href="index.html" class="px-3 py-1.5 text-sm font-medium text-primary bg-primary/10 rounded-md" aria-current="page">首页</a>
+        <a href="agents.html" class="px-3 py-1.5 text-sm font-medium text-on-surface hover:text-primary hover:bg-surface-container rounded-md transition-colors">AI智能体</a>
         <a href="resume.html" class="px-3 py-1.5 text-sm font-medium text-on-surface hover:text-primary hover:bg-surface-container rounded-md transition-colors">个人简历</a>
         <a href="contact.html" class="px-3 py-1.5 text-sm font-medium text-on-surface hover:text-primary hover:bg-surface-container rounded-md transition-colors">联系方式</a>
       </nav>
-      <a href="https://www.boip.com.cn" target="_blank" class="hidden sm:inline-flex items-center gap-1.5 bg-primary text-on-primary px-4 py-2 rounded-md text-sm font-medium hover:opacity-90 transition-opacity">
-        <i data-lucide="external-link" class="w-4 h-4"></i>
-        品源官网
-      </a>
+      <div class="flex items-center gap-2">
+        <button id="login-btn" class="hidden sm:inline-flex items-center gap-1.5 border border-primary/30 text-primary px-4 py-2 rounded-md text-sm font-medium hover:bg-primary/10 transition-colors">
+          <i data-lucide="log-in" class="w-4 h-4"></i>
+          登录
+        </button>
+        <a href="https://www.boip.com.cn" target="_blank" class="hidden sm:inline-flex items-center gap-1.5 bg-primary text-on-primary px-4 py-2 rounded-md text-sm font-medium hover:opacity-90 transition-opacity">
+          <i data-lucide="external-link" class="w-4 h-4"></i>
+          品源官网
+        </a>
+      </div>
     </div>
   </header>
   <!-- @nav:end 导航组件，不需要的页面则不要复制此段 -->
@@ -118,7 +124,7 @@
         <!-- 姓名与职位 -->
         <div id="hero-name-block">
           <h1 class="text-4xl md:text-5xl font-bold text-primary tracking-tight">高学锋</h1>
-          <p class="mt-2 text-lg text-on-surface-variant font-medium">资深专利代理人 / 电学领域专家</p>
+          <p class="mt-2 text-lg text-on-surface-variant font-medium">资深专利代理师 / 电学领域专家</p>
         </div>
 
         <!-- 专业宣言 -->
@@ -204,7 +210,7 @@
             <!-- 底部认证 -->
             <div class="mt-6 pt-6 border-t border-white/10 flex items-center gap-3">
               <i data-lucide="shield-check" class="w-5 h-5 text-accent"></i>
-              <span class="text-sm text-white/80">国家知识产权局注册专利代理人</span>
+              <span class="text-sm text-white/80">国家知识产权局注册专利代理师</span>
             </div>
           </div>
         </div>
@@ -282,101 +288,6 @@
             了解更多
             <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
           </a>
-        </div>
-      </div>
-    </section>
-
-    <!-- ========== 智能体入口（重点） ========== -->
-    <section id="agent-section" class="mb-20">
-      <div class="relative overflow-hidden rounded-2xl bg-gradient-to-r from-accent via-accent-light to-accent p-[2px] shadow-float">
-        <div class="relative bg-surface rounded-2xl p-8 md:p-10">
-          <div class="grid md:grid-cols-5 gap-8 items-center">
-            <!-- 左侧文字 -->
-            <div class="md:col-span-3 space-y-4">
-              <!-- 标签 -->
-              <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-accent/15">
-                <i data-lucide="sparkles" class="w-4 h-4 text-accent"></i>
-                <span class="text-xs font-bold text-primary">AI 智能体 · 专利教练</span>
-              </div>
-
-              <h2 class="text-2xl md:text-3xl font-bold text-primary leading-tight">
-                "专利教练：交底书减肥"智能体
-              </h2>
-
-              <p class="text-base text-on-surface-variant leading-relaxed">
-                基于 AI 大模型的专利交底书质量提升工具，帮您快速精简冗余内容、突出核心发明点、
-                优化技术方案表述，让交底书更加精炼专业，大幅提升专利申请质量与效率。
-              </p>
-
-              <!-- 功能亮点 -->
-              <div class="flex flex-wrap gap-3 pt-2">
-                <span class="inline-flex items-center gap-1.5 text-xs font-medium text-primary bg-primary/5 px-3 py-1.5 rounded-md">
-                  <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-accent"></i>
-                  冗余内容识别
-                </span>
-                <span class="inline-flex items-center gap-1.5 text-xs font-medium text-primary bg-primary/5 px-3 py-1.5 rounded-md">
-                  <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-accent"></i>
-                  发明点提炼
-                </span>
-                <span class="inline-flex items-center gap-1.5 text-xs font-medium text-primary bg-primary/5 px-3 py-1.5 rounded-md">
-                  <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-accent"></i>
-                  结构化优化
-                </span>
-                <span class="inline-flex items-center gap-1.5 text-xs font-medium text-primary bg-primary/5 px-3 py-1.5 rounded-md">
-                  <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-accent"></i>
-                  专业术语校准
-                </span>
-              </div>
-
-              <!-- CTA -->
-              <div class="pt-3">
-                <button id="btn-agent-start" class="inline-flex items-center gap-2 bg-accent text-primary px-6 py-3 rounded-md font-bold text-sm hover:bg-accent-light transition-colors shadow-md hover:shadow-lg">
-                  <i data-lucide="play" class="w-4 h-4 fill-current"></i>
-                  立即使用智能体
-                  <i data-lucide="arrow-right" class="w-4 h-4"></i>
-                </button>
-              </div>
-            </div>
-
-            <!-- 右侧智能体形象卡片 -->
-            <div class="md:col-span-2 flex justify-center">
-              <div class="relative w-full max-w-[280px]">
-                <!-- 智能体卡片 -->
-                <div class="bg-gradient-to-br from-primary to-primary-container rounded-xl p-6 text-white shadow-xl">
-                  <div class="flex items-center gap-3 mb-4">
-                    <div class="w-12 h-12 rounded-lg bg-accent/20 flex items-center justify-center">
-                      <i data-lucide="bot" class="w-6 h-6 text-accent"></i>
-                    </div>
-                    <div>
-                      <p class="font-bold text-white">专利教练</p>
-                      <p class="text-xs text-white/60">交底书减肥助手</p>
-                    </div>
-                  </div>
-                  <!-- 模拟对话气泡 -->
-                  <div class="space-y-3">
-                    <div class="bg-white/10 rounded-lg rounded-tl-none p-3 text-sm text-white/90">
-                      您好，请上传您的交底书，我将帮您精简优化～
-                    </div>
-                    <div class="bg-accent/20 rounded-lg rounded-tr-none p-3 text-sm text-white/90 ml-8">
-                      已识别冗余描述 23 处，核心发明点 5 个
-                    </div>
-                  </div>
-                  <!-- 底部状态 -->
-                  <div class="mt-4 pt-4 border-t border-white/10 flex items-center justify-between">
-                    <span class="text-xs text-white/50">AI 驱动</span>
-                    <span class="inline-flex items-center gap-1 text-xs text-accent">
-                      <span class="w-1.5 h-1.5 rounded-full bg-accent animate-pulse"></span>
-                      在线
-                    </span>
-                  </div>
-                </div>
-
-                <!-- 装饰光点 -->
-                <div class="absolute -top-3 -right-3 w-16 h-16 bg-accent/30 rounded-full blur-xl"></div>
-                <div class="absolute -bottom-3 -left-3 w-12 h-12 bg-primary/30 rounded-full blur-xl"></div>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </section>
@@ -473,11 +384,11 @@
             <div class="w-8 h-8 rounded-md bg-primary flex items-center justify-center">
               <span class="text-accent font-bold text-sm">高</span>
             </div>
-            <span class="font-bold text-on-surface">高学锋 · 专利代理人</span>
+            <span class="font-bold text-on-surface">高学锋 · 专利代理师</span>
           </div>
           <p class="text-sm text-on-surface-variant leading-relaxed">
             专注电学领域专利代理，助力技术创新保护。
-            北京品源专利代理有限公司资深代理人。
+            北京品源专利代理有限公司资深代理师。
           </p>
         </div>
 
@@ -486,6 +397,7 @@
           <p class="font-semibold text-on-surface mb-4 text-sm">快速链接</p>
           <ul class="space-y-2">
             <li><a href="index.html" class="text-sm text-on-surface-variant hover:text-primary transition-colors">首页</a></li>
+            <li><a href="agents.html" class="text-sm text-on-surface-variant hover:text-primary transition-colors">AI智能体</a></li>
             <li><a href="resume.html" class="text-sm text-on-surface-variant hover:text-primary transition-colors">个人简历</a></li>
             <li><a href="contact.html" class="text-sm text-on-surface-variant hover:text-primary transition-colors">联系方式</a></li>
             <li><a href="https://www.boip.com.cn" target="_blank" class="text-sm text-on-surface-variant hover:text-primary transition-colors">品源官网</a></li>
@@ -498,15 +410,11 @@
           <ul class="space-y-2">
             <li class="flex items-center gap-2 text-sm text-on-surface-variant">
               <i data-lucide="mail" class="w-4 h-4 text-primary"></i>
-              gaoxuefeng@boip.com.cn
-            </li>
-            <li class="flex items-center gap-2 text-sm text-on-surface-variant">
-              <i data-lucide="phone" class="w-4 h-4 text-primary"></i>
-              0512-89889809
+              <a href="mailto:xuefeng.gao@boip.com.cn" class="hover:text-primary transition-colors">邮箱咨询</a>
             </li>
             <li class="flex items-center gap-2 text-sm text-on-surface-variant">
               <i data-lucide="map-pin" class="w-4 h-4 text-primary"></i>
-              江苏省苏州吴中区
+              苏州市吴中区
             </li>
           </ul>
         </div>
@@ -518,7 +426,7 @@
           © 2026  版权所有 · 高学锋
         </p>
         <p class="text-xs text-on-surface-variant">
-          专利代理人执业证号：1165950284.2
+          专利代理师执业证号：1165950284.2
         </p>
       </div>
     </footer>
@@ -547,49 +455,296 @@
 
   <!-- Coze WebChat SDK -->
   <script>
-    var cozeClient = null;
-    var cozeSDKReady = false;
+    var BOT_DIET_ID = '7661518969198624777';    // 专利教练：交底书减肥
+    var BOT_SERVICE_ID = '7653302079582175258';  // 专利教练：客服助手
+    var DEFAULT_BOT_ID = BOT_SERVICE_ID;          // 默认 bot（右下角悬浮窗）
 
-    function initCozeSDK() {
-      if (typeof CozeWebSDK !== 'undefined' && CozeWebSDK.WebChatClient) {
-        try {
-          cozeClient = new CozeWebSDK.WebChatClient({
-            config: {
-              bot_id: '7661518969198624777',
-            },
-            componentProps: {
-              title: 'Coze',
-            },
-            auth: {
-              type: 'token',
-              token: 'pat_4ChDAx0dfagXwRpxGKOszsMe3HGueQfApt5Ds6MSTExCZyNFi1N3XX5omxAaaq4w',
-              onRefreshToken: function () {
-                return 'pat_4ChDAx0dfagXwRpxGKOszsMe3HGueQfApt5Ds6MSTExCZyNFi1N3XX5omxAaaq4w'
-              }
-            }
-          });
-          cozeSDKReady = true;
-          console.log('Coze SDK 初始化成功');
-        } catch (e) {
-          console.error('Coze SDK 初始化失败:', e);
+    var cozeClient = null;
+    var currentBotId = null;
+    var cozeScriptLoaded = false;
+    var auth0Ready = false;
+
+    // token 缓存
+    var cachedToken = '';
+    var cachedTokenType = 'pat';
+    var cachedUserId = '';
+
+    var JWT_API_URL = 'https://coze-jwt.onrender.com/api/get-jwt';
+    var ENABLE_JWT_MODE = true;
+
+    var PAT_TOKEN = 'pat_4ChDAx0dfagXwRpxGKOszsMe3HGueQfApt5Ds6MSTExCZyNFi1N3XX5omxAaaq4w';
+
+    // 获取 JWT 并兑换 OAuth Access Token
+    async function fetchAccessToken(userId) {
+      try {
+        var resp = await fetch(JWT_API_URL + '?auth0_user_id=' + encodeURIComponent(userId));
+        var data = await resp.json();
+        if (!data.jwt) {
+          console.warn('[CozeChat] 获取 JWT 失败');
+          return '';
         }
-      } else {
-        console.error('CozeWebSDK 未定义，SDK可能未加载成功');
+        var tokenResp = await fetch('https://api.coze.cn/api/permission/oauth2/token', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + data.jwt },
+          body: JSON.stringify({
+            grant_type: 'urn:ietf:params:oauth:grant-type:jwt-bearer',
+            duration_seconds: 86399
+          })
+        });
+        if (!tokenResp.ok) {
+          console.warn('[CozeChat] 兑换 OAuth Access Token 失败：HTTP', tokenResp.status);
+          return '';
+        }
+        var tokenData = await tokenResp.json();
+        if (tokenData.access_token) {
+          console.log('[CozeChat] 成功换取 OAuth Access Token');
+          return tokenData.access_token;
+        }
+        return '';
+      } catch (e) {
+        console.warn('[CozeChat] JWT/OAuth 流程异常：', e);
+        return '';
       }
     }
+
+    // 确保 token 就绪
+    async function ensureToken() {
+      var userId = '';
+      if (typeof auth0Client !== 'undefined' && auth0Client && auth0Ready) {
+        try {
+          var authed = await auth0Client.isAuthenticated();
+          if (authed) {
+            var u = await auth0Client.getUser();
+            userId = u.sub;
+          }
+        } catch (e) { /* ignore */ }
+      }
+
+      if (ENABLE_JWT_MODE && userId) {
+        if (cachedToken && cachedTokenType === 'jwt' && cachedUserId === userId) {
+          return { token: cachedToken, type: 'jwt', userId: userId };
+        }
+        var accessToken = await fetchAccessToken(userId);
+        if (accessToken) {
+          cachedToken = accessToken;
+          cachedTokenType = 'jwt';
+          cachedUserId = userId;
+          return { token: accessToken, type: 'jwt', userId: userId };
+        }
+        console.warn('[CozeChat] JWT 失败，降级 PAT');
+      }
+      cachedToken = PAT_TOKEN;
+      cachedTokenType = 'pat';
+      cachedUserId = '';
+      return { token: PAT_TOKEN, type: 'pat', userId: '' };
+    }
+
+    // 创建 Coze 客户端实例
+    function createCozeClient(botId, token, tokenType, userId) {
+      if (typeof CozeWebSDK === 'undefined' || !CozeWebSDK.WebChatClient) return null;
+      try {
+        var client = new CozeWebSDK.WebChatClient({
+          config: { bot_id: botId },
+          componentProps: { title: 'Coze' },
+          ui: {
+            asstBtn: {
+              isNeed: false,
+            },
+          },
+          auth: {
+            type: 'token',
+            token: token,
+            onRefreshToken: async function () {
+              if (tokenType === 'jwt' && userId) {
+                var newToken = await fetchAccessToken(userId);
+                if (newToken) {
+                  cachedToken = newToken;
+                  return newToken;
+                }
+              }
+              return token;
+            }
+          }
+        });
+        cozeClient = client;
+        currentBotId = botId;
+        console.log('[CozeChat] SDK 初始化成功（' + tokenType + ' 模式，bot: ' + botId + '）');
+        return client;
+      } catch (e) {
+        console.error('[CozeChat] SDK 初始化失败：', e);
+        return null;
+      }
+    }
+
+    // 切换到指定 bot 并打开聊天
+    async function openCozeChat(botId) {
+      if (typeof CozeWebSDK === 'undefined') {
+        alert('智能体加载中，请稍后再试或刷新页面');
+        return false;
+      }
+      var targetId = botId || DEFAULT_BOT_ID;
+
+      // 已经是目标 bot，直接打开
+      if (cozeClient && currentBotId === targetId) {
+        if (typeof cozeClient.showChatBot === 'function') {
+          cozeClient.showChatBot();
+          return true;
+        }
+        return false;
+      }
+
+      // 销毁旧实例
+      if (cozeClient && typeof cozeClient.destroy === 'function') {
+        try { cozeClient.destroy(); } catch (e) { console.warn(e); }
+        cozeClient = null;
+        currentBotId = null;
+      }
+
+      var info = await ensureToken();
+      var client = createCozeClient(targetId, info.token, info.type, info.userId);
+      if (!client) return false;
+
+      setTimeout(function () {
+        if (cozeClient && typeof cozeClient.showChatBot === 'function') {
+          cozeClient.showChatBot();
+        }
+      }, 100);
+      return true;
+    }
+
+    // 初始加载默认 bot（仅右下角悬浮窗用）
+    async function initDefaultBot() {
+      if (cozeClient) return; // 已有实例跳过
+      var info = await ensureToken();
+      createCozeClient(DEFAULT_BOT_ID, info.token, info.type, info.userId);
+    }
+
+    function tryInitCoze() {
+      if (cozeScriptLoaded && auth0Ready) {
+        initDefaultBot();
+      }
+    }
+
+    function onCozeScriptLoaded() {
+      cozeScriptLoaded = true;
+      tryInitCoze();
+    }
   </script>
-  <script src="https://lf-cdn.coze.cn/obj/unpkg/flow-platform/chat-app-sdk/1.2.0-beta.19/libs/cn/index.js" onload="initCozeSDK()"></script>
+  <script src="https://cdn.auth0.com/js/auth0-spa-js/2.21/auth0-spa-js.production.js"></script>
+  <script>
+    // Auth0 配置（使用环境变量占位，实际使用时替换为真实值）
+    const AUTH0_DOMAIN = 'dev-iuhogzdkreeodbqt.us.auth0.com';
+    const AUTH0_CLIENT_ID = 'mmdTbAZZ5bN5NSJXjDffXkPyijhftrlR';
+
+    let auth0Client = null;
+
+    async function initAuth0() {
+      if (!window.auth0?.createAuth0Client) {
+        console.warn('Auth0 SDK 未加载');
+        return;
+      }
+      if (!AUTH0_DOMAIN || !AUTH0_CLIENT_ID || AUTH0_DOMAIN === 'YOUR_AUTH0_DOMAIN') {
+        console.warn('[Auth0] 请配置 AUTH0_DOMAIN 和 AUTH0_CLIENT_ID');
+        return;
+      }
+      try {
+        auth0Client = await window.auth0.createAuth0Client({
+          domain: AUTH0_DOMAIN,
+          clientId: AUTH0_CLIENT_ID,
+          authorizationParams: {
+            redirect_uri: window.location.origin,
+          },
+        });
+        console.log('[Auth0] 初始化成功');
+
+        // 检查是否从Auth0重定向回来，处理回调
+        if (window.location.search.includes('code=')) {
+          const result = await auth0Client.handleRedirectCallback();
+          // 清理URL，移除code和state参数
+          const targetPath = result?.appState?.target || window.location.pathname;
+          window.history.replaceState({}, document.title, targetPath);
+        }
+
+        // 检查登录状态，获取用户信息
+        const isAuthed = await auth0Client.isAuthenticated();
+        if (isAuthed) {
+          const user = await auth0Client.getUser();
+          const userId = user?.sub;
+          console.log('[Auth0] 当前用户ID:', userId);
+        }
+
+        // 更新按钮文字
+        const loginBtn = document.getElementById('login-btn');
+        if (loginBtn) {
+          if (isAuthed) {
+            loginBtn.innerHTML = '<i data-lucide="log-out" class="w-4 h-4"></i> 退出登录';
+            lucide.createIcons();
+          }
+        }
+
+        // Auth0 就绪后，触发 Coze SDK 初始化（登录用户走 JWT，未登录走 PAT 兜底）
+        auth0Ready = true;
+        tryInitCoze();
+      } catch (e) {
+        console.error('[Auth0] 初始化失败:', e);
+        // 即使 Auth0 失败，也标记为就绪，让 Coze 用 PAT 模式初始化
+        auth0Ready = true;
+        tryInitCoze();
+      }
+    }
+
+    // 登录按钮点击
+    document.addEventListener('DOMContentLoaded', function() {
+      const loginBtn = document.getElementById('login-btn');
+      if (loginBtn) {
+        loginBtn.addEventListener('click', async function(e) {
+          e.preventDefault();
+          if (!auth0Client) {
+            alert('Auth0 尚未初始化，请刷新页面重试');
+            return;
+          }
+          const isAuthed = await auth0Client.isAuthenticated();
+          if (isAuthed) {
+            await auth0Client.logout({
+              logoutParams: { returnTo: window.location.origin }
+            });
+          } else {
+            await auth0Client.loginWithRedirect({
+              appState: { target: window.location.pathname + window.location.search },
+            });
+          }
+        });
+      }
+    });
+
+    // 等待 auth0 SDK 加载后初始化
+    let auth0WaitCount = 0;
+    function waitForAuth0() {
+      if (window.auth0?.createAuth0Client) {
+        initAuth0();
+      } else if (auth0WaitCount > 50) {
+        // 5秒超时，Auth0 不可用，标记就绪让 Coze 用 PAT 模式初始化
+        console.warn('[Auth0] 加载超时，跳过');
+        auth0Ready = true;
+        tryInitCoze();
+      } else {
+        auth0WaitCount++;
+        setTimeout(waitForAuth0, 100);
+      }
+    }
+    waitForAuth0();
+  </script>
+  <script src="https://lf-cdn.coze.cn/obj/unpkg/flow-platform/chat-app-sdk/1.2.0-beta.19/libs/cn/index.js" onload="cozeScriptLoaded = true; tryInitCoze()"></script>
   <script>
     // 按钮点击打开聊天窗口
     $(function() {
       $('#btn-agent-start').on('click', function(e) {
         e.preventDefault();
-        if (cozeClient && typeof cozeClient.open === 'function') {
-          cozeClient.open();
-        } else {
-          console.error('Coze SDK 未正确加载，cozeClient=', cozeClient);
-          alert('智能体加载失败，请确认通过 HTTP(S) 协议访问页面（而非直接双击打开 HTML 文件），或刷新页面重试');
-        }
+        openCozeChat(BOT_DIET_ID); // 点击按钮打开交底书减肥智能体
+      });
+      $('#btn-service-start').on('click', function(e) {
+        e.preventDefault();
+        openCozeChat(BOT_SERVICE_ID); // 点击按钮打开客服助手智能体
       });
     });
   </script>
